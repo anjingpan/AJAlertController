@@ -14,6 +14,10 @@
 		0475B3C91FB1914700BE3A6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0475B3C71FB1914700BE3A6B /* LaunchScreen.storyboard */; };
 		0475B3D41FB1914700BE3A6B /* AJAlertControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475B3D31FB1914700BE3A6B /* AJAlertControllerTests.swift */; };
 		0475B3DF1FB1914700BE3A6B /* AJAlertControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475B3DE1FB1914700BE3A6B /* AJAlertControllerUITests.swift */; };
+		0475B3F31FB194C600BE3A6B /* AJAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475B3F11FB194C600BE3A6B /* AJAlertController.swift */; };
+		0475B3F41FB194C600BE3A6B /* AJAlertController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0475B3F21FB194C600BE3A6B /* AJAlertController.xib */; };
+		0498188D1FB3EA2800025944 /* messi.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0498188C1FB3EA2800025944 /* messi.jpg */; };
+		04EF8F3A1FB2E11100E3E0BB /* AJAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EF8F391FB2E11100E3E0BB /* AJAlertAction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		0475B3DA1FB1914700BE3A6B /* AJAlertControllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AJAlertControllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0475B3DE1FB1914700BE3A6B /* AJAlertControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AJAlertControllerUITests.swift; sourceTree = "<group>"; };
 		0475B3E01FB1914700BE3A6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0475B3F11FB194C600BE3A6B /* AJAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AJAlertController.swift; path = Library/AJAlertController.swift; sourceTree = "<group>"; };
+		0475B3F21FB194C600BE3A6B /* AJAlertController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AJAlertController.xib; path = Library/AJAlertController.xib; sourceTree = "<group>"; };
+		0498188C1FB3EA2800025944 /* messi.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = messi.jpg; sourceTree = "<group>"; };
+		04EF8F391FB2E11100E3E0BB /* AJAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AJAlertAction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,8 +105,10 @@
 		0475B3BD1FB1914700BE3A6B /* AJAlertController */ = {
 			isa = PBXGroup;
 			children = (
+				0475B3F01FB1949E00BE3A6B /* Library */,
 				0475B3BE1FB1914700BE3A6B /* AppDelegate.swift */,
 				0475B3C01FB1914700BE3A6B /* ViewController.swift */,
+				0498188C1FB3EA2800025944 /* messi.jpg */,
 				0475B3C21FB1914700BE3A6B /* Main.storyboard */,
 				0475B3C51FB1914700BE3A6B /* Assets.xcassets */,
 				0475B3C71FB1914700BE3A6B /* LaunchScreen.storyboard */,
@@ -123,6 +133,16 @@
 				0475B3E01FB1914700BE3A6B /* Info.plist */,
 			);
 			path = AJAlertControllerUITests;
+			sourceTree = "<group>";
+		};
+		0475B3F01FB1949E00BE3A6B /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				0475B3F11FB194C600BE3A6B /* AJAlertController.swift */,
+				0475B3F21FB194C600BE3A6B /* AJAlertController.xib */,
+				04EF8F391FB2E11100E3E0BB /* AJAlertAction.swift */,
+			);
+			name = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,8 +253,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0475B3C91FB1914700BE3A6B /* LaunchScreen.storyboard in Resources */,
+				0475B3F41FB194C600BE3A6B /* AJAlertController.xib in Resources */,
 				0475B3C61FB1914700BE3A6B /* Assets.xcassets in Resources */,
 				0475B3C41FB1914700BE3A6B /* Main.storyboard in Resources */,
+				0498188D1FB3EA2800025944 /* messi.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,7 +282,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0475B3C11FB1914700BE3A6B /* ViewController.swift in Sources */,
+				0475B3F31FB194C600BE3A6B /* AJAlertController.swift in Sources */,
 				0475B3BF1FB1914700BE3A6B /* AppDelegate.swift in Sources */,
+				04EF8F3A1FB2E11100E3E0BB /* AJAlertAction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +451,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJ2292U93V;
 				INFOPLIST_FILE = AJAlertController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mac.AJAlertController;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -441,7 +467,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HJ2292U93V;
 				INFOPLIST_FILE = AJAlertController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mac.AJAlertController;
 				PRODUCT_NAME = "$(TARGET_NAME)";

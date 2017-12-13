@@ -20,6 +20,10 @@ class AJAlertController: UIViewController {
     // MARK: - Property
     open var isDismissTapBackground = false
     open var isAnimated = true
+    open var textFields = [UITextField]()
+    open var textFieldMarginX : CGFloat = 12
+    open var textFieldHieght : CGFloat = 44
+    open var actionHeight : CGFloat = 44
     
     @IBOutlet weak var alertBackgroundView: UIView!
     @IBOutlet weak var alertView: UIView!
@@ -35,8 +39,22 @@ class AJAlertController: UIViewController {
     @IBOutlet weak var actionViewHeightConstraint: NSLayoutConstraint!
     
     fileprivate var timer : Timer?
+    fileprivate var actions = [AJAlertAction]()
     
     // MARK: - Life Cycle
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -46,21 +64,29 @@ class AJAlertController: UIViewController {
             actionViewHeightConstraint.constant = 0
         }
         
-        if actionView.subviews.count == 2 {
-            for (index,action) in actionView.subviews.enumerated() {
-                if let action = action as? AJAlertAction {
-                    action.frame = CGRect.init(x: alertViewWidthConstraint.constant * 0.5 * CGFloat(index), y: 0, width: alertViewWidthConstraint.constant * 0.5, height: 44)
-                    actionViewHeightConstraint.constant = 44
-                }
+        if actions.count == 2 {
+            for (index,textField) in textFields.enumerated() {
+                textField.frame = CGRect.init(x: textFieldMarginX, y: CGFloat(index) * textFieldHieght, width: alertViewWidthConstraint.constant - 2 * textFieldMarginX, height: textFieldHieght)
             }
+            
+            for (index,action) in actions.enumerated() {
+                action.frame = CGRect.init(x: alertViewWidthConstraint.constant * 0.5 * CGFloat(index), y: CGFloat(textFields.count) * textFieldHieght, width: alertViewWidthConstraint.constant * 0.5, height: actionHeight)
+            }
+            actionViewHeightConstraint.constant = CGFloat(textFields.count) * textFieldHieght + actionHeight
+            
             return
         }
-        for (index,action) in actionView.subviews.enumerated() {
-            if let action = action as? AJAlertAction {
-                action.frame = CGRect.init(x: 0, y: index * 44, width: Int(alertViewWidthConstraint.constant), height:44)
-                actionViewHeightConstraint.constant = CGFloat((index + 1) * 44)
-            }
+        
+        for (index,textField) in textFields.enumerated() {
+            textField.frame = CGRect.init(x: textFieldMarginX, y: CGFloat(index) * textFieldHieght, width: alertViewWidthConstraint.constant - 2 * textFieldMarginX, height: textFieldHieght)
         }
+        
+        for (index,action) in actions.enumerated() {
+            action.frame = CGRect.init(x: 0, y: CGFloat(textFields.count) * textFieldHieght + CGFloat(index) * actionHeight, width: alertViewWidthConstraint.constant, height: actionHeight)
+        }
+        
+        actionViewHeightConstraint.constant = CGFloat(textFields.count) * textFieldHieght + CGFloat(actions.count) * actionHeight
+        
     }
     
     // MARK: - Public Function
@@ -91,8 +117,16 @@ class AJAlertController: UIViewController {
     }
     
     @objc public func addAction(_ action: AJAlertAction) {
+        actions.append(action)
         actionView.addSubview(action)
         action.addTarget(self, action: #selector(clickAction), for: .touchUpInside)
+    }
+    
+    @objc public func addTextField(_ configuration : ((_ textField : UITextField) -> Void)?) {
+        let textFiled = UITextField.init()
+        configuration?(textFiled)
+        textFields.append(textFiled)
+        actionView.addSubview(textFiled)
     }
     
     @objc public func hide(_ animated: Bool) {
@@ -101,6 +135,22 @@ class AJAlertController: UIViewController {
     
     @objc public func hide(_ animated: Bool, afterDelay: Double) {
         setupTimer(afterDelay, animated)
+    }
+    
+    // MARK: - Notification
+    @objc fileprivate func keyboardWillShow(_ notification : Notification) {
+        guard let keyboardMiny = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.minY else { return }
+        
+        //修复键盘高度变小后其不跟随键盘下来
+        if alertView.center.y < alertBackgroundView.center.y {
+            alertView.center.y += (alertBackgroundView.center.y - alertView.center.y) > (keyboardMiny - alertView.frame.maxY) ? (alertBackgroundView.center.y - alertView.center.y) - (keyboardMiny - alertView.frame.maxY) : 0
+        }else{
+            alertView.center.y -= alertView.frame.maxY - keyboardMiny > 0 ? alertView.frame.maxY - keyboardMiny : 0
+        }
+    }
+    
+    @objc fileprivate func keyboardWillHide(_ notification : Notification) {
+        alertView.center = alertBackgroundView.center
     }
     
     // MARK: - Timer

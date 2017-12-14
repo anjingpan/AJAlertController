@@ -8,60 +8,65 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
-    var dateToolbar : UIToolbar?
+class ViewController: UIViewController {    
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        let button = UIButton.init(type: .custom)
-        button.frame = CGRect.init(x: 0, y: 0, width: 300, height: 40)
-        button.center = view.center
-        button.setTitle("alertWithThreeAction", for: .normal)
-        button.backgroundColor = .blue
-        button.addTarget(self, action: #selector(alert), for: .touchUpInside)
-        view.addSubview(button)
-        
-        let button1 = UIButton.init(type: .custom)
-        button1.frame = CGRect.init(x: 0, y: 0, width: 300, height: 40)
-        button1.center = CGPoint.init(x: view.center.x, y: view.center.y - 60)
-        button1.setTitle("alertWithTwoAction", for: .normal)
-        button1.backgroundColor = .red
-        button1.addTarget(self, action: #selector(alertWithTwoAction), for: .touchUpInside)
-        view.addSubview(button1)
-        
-        let button2 = UIButton.init(type: .custom)
-        button2.frame = CGRect.init(x: 0, y: 0, width: 300, height: 40)
-        button2.center = CGPoint.init(x: view.center.x, y: view.center.y + 60)
-        button2.setTitle("alertWithNoAction", for: .normal)
-        button2.backgroundColor = .gray
-        button2.addTarget(self, action: #selector(alertWithNoAction), for: .touchUpInside)
-        view.addSubview(button2)
-        
-        let button3 = UIButton.init(type: .custom)
-        button3.frame = CGRect.init(x: 0, y: 0, width: 300, height: 40)
-        button3.center = CGPoint.init(x: view.center.x, y: view.center.y + 120)
-        button3.setTitle("alertWithTextField", for: .normal)
-        button3.backgroundColor = .cyan
-        button3.addTarget(self, action: #selector(alertWithTextField), for: .touchUpInside)
-        view.addSubview(button3)
-        
+        initView()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
     
+    // MARK: - Init View
+    func initView() {
+        _ = initButton { (button) in
+            button.center = view.center
+            button.setTitle("alertWithThreeAction", for: .normal)
+            button.backgroundColor = .blue
+            button.addTarget(self, action: #selector(alert), for: .touchUpInside)
+        }
+        
+        _ = initButton({ (button) in
+            button.center = CGPoint.init(x: view.center.x, y: view.center.y - 60)
+            button.setTitle("alertWithTwoAction", for: .normal)
+            button.backgroundColor = .red
+            button.addTarget(self, action: #selector(alertWithTwoAction), for: .touchUpInside)
+        })
+        
+        _ = initButton({ (button) in
+            button.center = CGPoint.init(x: view.center.x, y: view.center.y + 60)
+            button.setTitle("alertWithNoAction", for: .normal)
+            button.backgroundColor = .gray
+            button.addTarget(self, action: #selector(alertWithNoAction), for: .touchUpInside)
+        })
+        
+        _ = initButton({ (button) in
+            button.center = CGPoint.init(x: view.center.x, y: view.center.y + 120)
+            button.setTitle("alertWithTextField", for: .normal)
+            button.backgroundColor = .cyan
+            button.addTarget(self, action: #selector(alertWithTextField), for: .touchUpInside)
+        })
+    }
+    
+    func initButton(_ configuration : ((_ button : UIButton) -> Void)) {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect.init(x: 0, y: 0, width: 300, height: 40)
+        view.addSubview(button)
+        configuration(button)
+    }
+
+    // MARK: - Button Click
     @objc func alert() {
         let alert = AJAlertController.init(title: "梅西加油", message: "阿根廷世界杯夺冠", image: #imageLiteral(resourceName: "messi.jpg"), prefferedStyle: .alert)
         let action1 = AJAlertAction.init(title: "恭喜", style: .default) {
             print("恭喜")
         }
-        let action2 = AJAlertAction.init(title: "祝贺", style: .default) {
+        let action2 = AJAlertAction.init(title: "祝贺", style: .destructive) {
             print("祝贺")
         }
         let action3 = AJAlertAction.init(title: "取消", style: .cancel) {
@@ -93,6 +98,7 @@ class ViewController: UIViewController {
         alert.isDismissTapBackground = true
         present(alert, animated: true, completion: nil)
         alert.hide(true, afterDelay: 2)
+
     }
     
     @objc func alertWithTextField() {

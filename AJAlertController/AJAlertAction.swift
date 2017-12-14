@@ -11,19 +11,36 @@ import UIKit
 @objc public enum AJAlertActionStyle : Int {
     case `default`
     case cancel
+    case destructive
 }
+
+let kDefaultColor = UIColor(red: 191.0/255.0, green: 51.0/255.0, blue: 98.0/255.0, alpha: 1.0)
+let kCancelColor = UIColor.darkGray
+let kDestructive = UIColor.red
 
 class AJAlertAction: UIButton {
 
     // MARK: - Property
-    open var actionStyle : AJAlertActionStyle
+    open var actionStyle : AJAlertActionStyle {
+        didSet {
+            switch actionStyle {
+            case .default:
+                setTitleColor(kDefaultColor, for: .normal)
+            case .cancel:
+                setTitleColor(kCancelColor, for: .normal)
+            case .destructive:
+                setTitleColor(kDestructive, for: .normal)
+            }
+        }
+    }
+    
     open var seperatorColor : UIColor {
         didSet {
             seperatorView.backgroundColor = seperatorColor
         }
     }
     
-    fileprivate var seperatorView : UIView!
+    fileprivate var seperatorView : UIView!                 //分割线
     
     fileprivate var action : (() -> Void)?
 
@@ -46,7 +63,14 @@ class AJAlertAction: UIButton {
         titleLabel?.textAlignment = .center
         
         actionStyle = style
-        style == .default ? (self.setTitleColor(UIColor(red: 191.0/255.0, green: 51.0/255.0, blue: 98.0/255.0, alpha: 1.0), for: UIControlState())) : (self.setTitleColor(UIColor.gray, for: UIControlState()))
+        switch actionStyle {
+        case .default:
+            setTitleColor(kDefaultColor, for: .normal)
+        case .cancel:
+            setTitleColor(kCancelColor, for: .normal)
+        case .destructive:
+            setTitleColor(kDestructive, for: .normal)
+        }
         
         action = handler
         
